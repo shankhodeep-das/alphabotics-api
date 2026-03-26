@@ -86,7 +86,11 @@ log("info", "Alphabotics API starting up...");
 
 // ─── MIDDLEWARE ───────────────────────────────────────────────────────────────
 app.use(cors({
-  origin:      process.env.FRONTEND_URL,
+  origin:[
+    process.env.FRONTEND_URL,
+    "https://alphabotics.vercel.app",
+    "https://alphabotics-api.vercel.app",
+  ],
   credentials: true,
 }));
 app.use(express.json());
@@ -775,8 +779,13 @@ app.get("/auth/callback", async (req, res) => {
 
     // Step 7 — Set cookie
     log("step", "Step 7: Setting HTTP-only cookie...");
-    // Replace res.cookie logic with this:
-    const jwtToken = jwt.sign({ userId: user.id }, process.env.JWT_SECRET);
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "none",
+      maxAge: COOKIE_MAX_AGE,
+    });
+    
 
     // Redirect to your UI with the token in the query params
     res.redirect(`https://alphabotics.vercel.app/dashboard?token=${jwtToken}&bot=${botId}`);
