@@ -786,15 +786,12 @@ app.get("/auth/callback", async (req, res) => {
       maxAge: COOKIE_MAX_AGE,
     });
     
-
-    // Redirect to your UI with the token in the query params
-    res.redirect(`https://alphabotics.vercel.app/dashboard?token=${token}&bot=${botId}`);
     log("success", "Step 7: Cookie set successfully");
 
     // Step 8 — Redirect
     const redirectUrl = botId
-      ? `${process.env.FRONTEND_URL}?bot=${botId}`
-      : process.env.FRONTEND_URL;
+      ? `${process.env.FRONTEND_URL}/dashboard?token=${token}&bot=${botId}`
+      : `${process.env.FRONTEND_URL}/dashboard?token=${token}`;
 
     log("success", `🎉 OAuth2 LOGIN SUCCESS! Redirecting → ${redirectUrl}`);
     res.redirect(redirectUrl);
