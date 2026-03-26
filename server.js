@@ -794,7 +794,7 @@ app.get("/auth/callback", async (req, res) => {
       : `${process.env.FRONTEND_URL}/dashboard?token=${token}`;
 
     log("success", `🎉 OAuth2 LOGIN SUCCESS! Redirecting → ${redirectUrl}`);
-    res.redirect(redirectUrl);
+    return res.redirect(redirectUrl);
 
   } catch (err) {
     const status  = err.response?.status;
@@ -809,7 +809,7 @@ app.get("/auth/callback", async (req, res) => {
       log("warning", "Discord is rate limiting OAuth token exchange. User should wait a few minutes and try again.");
       return res.redirect(`${process.env.FRONTEND_URL}?error=rate_limited`);
     }
-    res.redirect(`${process.env.FRONTEND_URL}?error=oauth_failed`);
+    return res.redirect(`${process.env.FRONTEND_URL}?error=oauth_failed`);
   }
 });
 
