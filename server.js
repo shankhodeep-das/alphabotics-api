@@ -788,7 +788,7 @@ app.get("/auth/callback", async (req, res) => {
     
 
     // Redirect to your UI with the token in the query params
-    res.redirect(`https://alphabotics.vercel.app/dashboard?token=${jwtToken}&bot=${botId}`);
+    res.redirect(`https://alphabotics.vercel.app/dashboard?token=${token}&bot=${botId}`);
     log("success", "Step 7: Cookie set successfully");
 
     // Step 8 — Redirect
