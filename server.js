@@ -1009,31 +1009,6 @@ app.post("/activity/log", requireAuth, async (req, res) => {
 });
 
 // ── SETTINGS ──────────────────────────────────────────────────────────────────
-// ── PUBLIC STATS ──────────────────────────────────────────────────────────────
-app.get("/stats", async (req, res) => {
-  try {
-    const totalServers  = await Guild.countDocuments({ botPresent: true });
-    const totalUsers    = await User.countDocuments();
-    const todayStart    = new Date(); todayStart.setHours(0,0,0,0);
-    const commandsToday = await ActivityLog.countDocuments({ createdAt: { $gte: todayStart } });
-    const scrimsCreated = await ActivityLog.countDocuments({ type: "scrim_created" });
-
-    log("info", "Public stats fetched");
-    res.json({
-      servers:  totalServers  || 0,
-      users:    totalUsers    || 0,
-      commands: commandsToday || 0,
-      scrims:   scrimsCreated || 0,
-      uptime:   99.8,
-    });
-  } catch (err) {
-    log("error", "Failed to fetch public stats", { error: err.message });
-    res.status(500).json({ error: "Failed to fetch stats" });
-  }
-});
-
-
-
 app.get("/settings/:botId/:guildId", requireAuth, async (req, res) => {
   res.json({
     botId: req.params.botId, guildId: req.params.guildId,
@@ -1061,4 +1036,4 @@ app.listen(PORT, () => {
 });
 
 
-module.exports = app;
+module.export = app;
